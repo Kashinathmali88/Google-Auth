@@ -10,9 +10,9 @@ const Port = process.env.PORT || 4000;
 app.use(
   cors({
     origin:
-      process.env.NODE_ENV === "devlopment"
-        ? "http://localhost:5173"
-        : "randmlink",
+      process.env.NODE_ENV === "production"
+        ? "https://google-auth-frontend-self.vercel.app"
+        : "http://localhost:5173",
     method: ["POST", "GET"],
     credentials: true,
     headers: { "Content-Type": "application/json" },
