@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./Login";
 import Dashbord from "./Dashbord";
 import PageNotFound from "./PageNotFound";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Context } from "./Context";
 
 const App = () => {
+  const { clientId } = useContext(Context);
   const GoogleAuthWrapper = () => {
     return (
-      <GoogleOAuthProvider clientId="363157526387-09o9r6hgkcot6uum0lcgsbngt8dgleh0.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={clientId}>
         <Login />
       </GoogleOAuthProvider>
     );

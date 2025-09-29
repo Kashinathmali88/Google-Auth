@@ -9,7 +9,10 @@ const Port = process.env.PORT || 4000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      process.env.NODE_ENV === "devlopment"
+        ? "http://localhost:5173"
+        : "randmlink",
     method: ["POST", "GET"],
     credentials: true,
     headers: { "Content-Type": "application/json" },

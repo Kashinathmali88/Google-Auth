@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Context } from "./Context";
 
 const Dashbord = () => {
-  const [user, setUser] = useState({});
+  const { user, setUser, navigate } = useContext(Context);
   const [imageError, setImageError] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("userInfo");
     navigate("/login");
+    setUser(false);
   };
 
   const handleImageError = () => {

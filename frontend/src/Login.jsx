@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Context } from "./Context";
 function Login() {
-  const navigate = useNavigate();
+  const { navigate, backendUrl, setUser, user } = useContext(Context);
+
   const responseGoogle = async (authResult) => {
     try {
       if (authResult["code"]) {
-        const res = await axios.get(`http://localhost:3000/auth/google/`, {
+        const res = await axios.get(`${backendUrl}/auth/google/`, {
           params: { code: authResult.code },
         });
+
         const { email, name, image } = res.data.user;
         const token = res.data.token;
+
         const userInfo = { email, name, image, token };
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        setUser(true);
         navigate("/dashbord");
       }
     } catch (error) {
@@ -29,8 +33,14 @@ function Login() {
     ux_mode: "popup",
   });
 
+  useEffect(() => {
+    if (user) {
+      navigate("/dashbord");
+    }
+  }, [user, navigate]);
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r via-black/85 from-slate-700 to-slate-600">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r via-black/80 from-slate-700 to-slate-600">
       <div className="flex flex-col gap-4 justify-center items-center w-96 h-50 rounded-xl p-px bg-white/10 border border-white/20 backdrop-blur-md text-gray-800  shadow-lg">
         <h1 className="text-2xl text-white font-light">Login</h1>
         <button
